@@ -1,1 +1,2 @@
-test.rkt
+/racket/test.rkt
+/racket/*.rkt~
