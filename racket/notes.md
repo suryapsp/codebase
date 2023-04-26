@@ -29,3 +29,27 @@ to form a constant definiton:
     example = (define WIDTH 400)
               (define HEIGHT 600)
 ```
+
+# Function Definition
+
+defining a function definition:
+```
+(define (<name-of-function> <name-of-argument>...)
+   <expression>)
+
+(define (bulb c)
+  (circle 20 "solid" c))
+```
+
+# If Expression
+to form an if expression:
+```
+(if <expression1>
+    <expression2>
+    <expression3>)
+```
+expression1 = question(must produce boolean)
+
+expression2 = true answer
+
+expression3 = false answer
