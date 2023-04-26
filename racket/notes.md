@@ -20,3 +20,12 @@ to evaluate a primitive call:
 
     1. first reduce operands to values
     2. then apply primitve to the values
+
+# Constant Definitons
+```
+to form a constant definiton:
+    (define <name> <expression>)
+
+    example = (define WIDTH 400)
+              (define HEIGHT 600)
+```
