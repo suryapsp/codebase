@@ -1,2 +1,3 @@
-/racket/test.rkt
-/racket/*.rkt~
+/racket/basic/test.rkt
+/racket/basic/*.rkt~
+/racket/practice-problems/*.rkt~
