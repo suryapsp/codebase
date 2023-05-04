@@ -1,3 +1,7 @@
 /racket/basic/test.rkt
-/racket/basic/*.rkt~
-/racket/practice-problems/*.rkt~
+/racket/basic/1a/*.rkt~
+/racket/basic/1b/*.rkt~
+/racket/basic/2/*.rkt~
+/racket/practice-problems/1a/*.rkt~
+/racket/practice-problems/1b/*.rkt~
+/racket/practice-problems/2/*.rkt~
