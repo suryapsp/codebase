@@ -1,0 +1,23 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname quiz) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(require 2htdp/image)
+
+;; image, image -> boolean
+;; produce true if first image is larger than second image
+
+(check-expect (compare (circle 20 "solid" "red") (circle 20 "solid" "red")) false)
+(check-expect (compare (circle 30 "solid" "red") (circle 20 "solid" "red")) true)
+(check-expect (compare (circle 10 "solid" "red") (circle 20 "solid" "red")) false)
+
+;(define (compare i1 i2) false) ;stub
+
+;(define (compare i1 i2) ;template
+;  (... i1 i2))
+
+(define (compare i1 i2)
+  (if (and
+            (> (image-height i1) (image-height i2))
+            (> (image-width i1) (image-width i2)))
+      true
+      false))
