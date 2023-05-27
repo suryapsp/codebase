@@ -28,3 +28,24 @@ fun dates_in_month(dates : (int * int * int) list, month : int) =
     else if (#2 (hd dates)) = month
     then (hd dates) :: dates_in_month((tl dates), month)
     else dates_in_month((tl dates), month)
+
+fun dates_in_months(dates : (int * int * int) list, months : int list) = 
+    if null months
+    then []
+    else dates_in_month(dates, hd months) @ dates_in_months(dates, tl months)
+
+fun get_nth(strings : string list, n : int) = 
+    if n = 1
+    then (hd strings)
+    else get_nth(tl strings, n - 1)
+
+fun date_to_string(date : int * int * int) =
+    let
+      val months_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      val month = get_nth(months_list, #2 date)
+      val date_string = Int.toString(#3 date)
+      val year = Int.toString(#1 date)
+      
+    in
+      month ^ " " ^ date_string ^ ", " ^ year
+    end
