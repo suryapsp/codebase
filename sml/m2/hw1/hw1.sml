@@ -49,3 +49,20 @@ fun date_to_string(date : int * int * int) =
     in
       month ^ " " ^ date_string ^ ", " ^ year
     end
+
+fun number_before_reaching_sum(sum : int, nums : int list) =
+    let
+      fun number_before_reaching_sum_helper(nums : int list, target : int, total : int, n : int) =
+        if (hd nums) + total < target
+        then number_before_reaching_sum_helper((tl nums), target, total+ (hd nums), n+1)
+        else n
+    in
+      number_before_reaching_sum_helper(nums, sum, 0, 0)
+    end
+
+fun what_month(day : int) =
+    let
+      val months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    in
+      number_before_reaching_sum(day, months) + 1
+    end
