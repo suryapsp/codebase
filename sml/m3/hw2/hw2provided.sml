@@ -84,3 +84,19 @@ fun card_value(c) = (*card -> int*)
     (_, Num i) => i
   | (_, Ace) => 11
   | (_, _) => 10
+
+fun remove_card(cs, c, e) =
+  let
+    fun helper(cs, c, e, removed) =
+      case cs of
+        [] => if removed = true then [] else raise e 
+      | cs::cs' => if cs = c andalso removed = false then helper(cs', c, e, true) else cs::helper(cs', c, e, false)
+  in
+    helper(cs, c, e, false)
+  end
+
+fun all_same_color(cs) = (*card -> bool*)
+  case cs of
+    [] => true
+  | cs::[] => true
+  | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(neck::rest)
