@@ -42,8 +42,6 @@ fun get_substitutions2 (lst, s) =
     helper(lst, s, [])
   end
 
-
-
 (*D*)
 fun similar_names(lst, name) =
     let
@@ -74,3 +72,15 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+
+fun card_color(c) = (*card -> color*)
+  case c of
+    (Spades, _) => Black
+  | (Clubs, _) => Black
+  | (_, _) => Red
+
+fun card_value(c) = (*card -> int*)
+  case c of
+    (_, Num i) => i
+  | (_, Ace) => 11
+  | (_, _) => 10
