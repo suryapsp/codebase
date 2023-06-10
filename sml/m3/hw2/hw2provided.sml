@@ -100,3 +100,43 @@ fun all_same_color(cs) = (*card -> bool*)
     [] => true
   | cs::[] => true
   | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(neck::rest)
+
+fun sum_cards(cs) =
+  let
+    fun helper_sum(cs, acc) =
+      case cs of
+        [] => acc
+      | cs::cs' => helper_sum(cs', card_value(cs)+acc)
+  in
+    helper_sum(cs, 0)
+  end
+
+fun score(cs, goal) =
+  let
+    fun preliminary_score(cs, goal) =
+      let
+        val sum = sum_cards(cs)
+      in
+        if sum > goal then 3*(sum - goal)
+        else goal - sum
+      end
+  in
+    if all_same_color(cs) then preliminary_score(cs, goal) div 2
+    else preliminary_score(cs, goal)
+  end
+
+fun officiate(cs, mv, goal) =
+  let
+    fun play(cs, mv, goal, held) =
+      if sum_cards(held) > goal then score(held, goal)
+      else case mv of 
+              [] => score(held, goal)
+            | mv::mv' => case mv of
+                            Discard(c) => play(cs, mv', goal, remove_card(held, c, IllegalMove))
+                          | Draw => case cs of 
+                                      [] => score(held, goal)
+                                    | c::[] => play([], mv', goal, c::held)
+                                    | c::cs' => play(cs', mv', goal, c::held)
+  in
+    play(cs, mv, goal, [])
+  end
