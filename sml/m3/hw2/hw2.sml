@@ -23,7 +23,7 @@ fun get_substitutions1(lst, s) =
     case lst of
         [] => []
     |   l::lst' => case all_except_option(s, l) of
-                    NONE => []
+                    NONE => get_substitutions1(lst', s)
                   | SOME valid_list => valid_list @ get_substitutions1(lst', s)
 
 (*C*)
@@ -86,14 +86,9 @@ fun card_value(c) = (*card -> int*)
   | (_, _) => 10
 
 fun remove_card(cs, c, e) =
-  let
-    fun helper(cs, c, e, removed) =
-      case cs of
-        [] => if removed = true then [] else raise e 
-      | cs::cs' => if cs = c andalso removed = false then helper(cs', c, e, true) else cs::helper(cs', c, e, false)
-  in
-    helper(cs, c, e, false)
-  end
+  case cs of
+    [] => raise e 
+  | cs::cs' => if cs = c then cs' else cs::remove_card(cs', c, e)
 
 fun all_same_color(cs) = (*card -> bool*)
   case cs of
@@ -125,18 +120,19 @@ fun score(cs, goal) =
     else preliminary_score(cs, goal)
   end
 
-fun officiate(cs, mv, goal) =
-  let
-    fun play(cs, mv, goal, held) =
-      if sum_cards(held) > goal then score(held, goal)
-      else case mv of 
-              [] => score(held, goal)
-            | mv::mv' => case mv of
-                            Discard(c) => play(cs, mv', goal, remove_card(held, c, IllegalMove))
-                          | Draw => case cs of 
-                                      [] => score(held, goal)
-                                    | c::[] => play([], mv', goal, c::held)
-                                    | c::cs' => play(cs', mv', goal, c::held)
-  in
-    play(cs, mv, goal, [])
-  end
+fun officiate (cards,plays,goal) =
+    let 
+        fun loop (current_cards,cards_left,plays_left) =
+            case plays_left of
+                [] => score(current_cards,goal)
+              | (Discard c)::tail => 
+                loop (remove_card(current_cards,c,IllegalMove),cards_left,tail)
+              | Draw::tail =>
+                case cards_left of
+                    [] => score(current_cards,goal)
+                  | c::rest => if sum_cards (c::current_cards) > goal
+                               then score(c::current_cards,goal)
+                               else loop (c::current_cards,rest,tail)
+    in 
+        loop ([],cards,plays)
+    end
