@@ -63,18 +63,14 @@ fun first_answer f =
 			  					SOME x => x
 							  |	NONE => first_answer f xs'
 
-fun all_answers f =
-	fn xs => 
-	let
-	  fun helper(acc, ys) =
-		case ys of
-			[] => SOME []
-		  |	y::ys' => case (f y) of
-		  				NONE => NONE
-					  |	SOME y => helper([y]@acc, ys')
-	in
-	  helper([], xs)
-	end
+fun all_answers f xs =
+    let fun loop (acc,xs) =
+        case xs of
+		        [] => SOME acc
+	        | x::xs' => case f x of 
+                          NONE => NONE
+              			    | SOME y => loop((y @ acc), xs')
+    in loop ([],xs) end
 
 fun count_wildcards p =
 	g (fn () => 1) (fn x => 0) p 
